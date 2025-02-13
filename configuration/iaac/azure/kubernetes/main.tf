@@ -1,6 +1,5 @@
-resource "azurerm_resource_group" "resource_group" {
-  name     = "${var.resource_group}_${var.environment}"
-  location = var.location
+provider "azurerm" {
+  features {}  
 }
 
 resource "azurerm_kubernetes_cluster" "terraform-k8s" {
