@@ -1,0 +1,56 @@
+trigger:
+- master
+
+resources:
+- repo: self
+
+variables:
+  tag: 8
+  # tag: '$(Build.BuildId)'
+
+stages:
+- stage: Build
+  displayName: Build image
+  jobs:  
+  - job: Build
+    displayName: Build
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+    - task: Docker@2
+      inputs:
+        containerRegistry: 'maxeom-docker-hub'
+        repository: 'maxeom/currency-exchange-devops'
+        command: 'buildAndPush'
+        Dockerfile: '**/Dockerfile'
+        tags: '$(tag)'
+    - task: PublishBuildArtifacts@1
+      inputs:
+        PathtoPublish: '$(Build.ArtifactStagingDirectory)'
+        ArtifactName: 'manifests'
+  
+
+- stage: deploy
+  displayName: deploy image
+  jobs:  
+  - job: deploy
+    displayName: deploy
+    pool:
+      vmImage: 'ubuntu-latest'
+    steps:
+
+    - task: DownloadPipelineArtifact@2
+      inputs:
+        buildType: 'current'
+        artifactName: 'manifests'
+        itemPattern: '**/*.yaml'
+        targetPath: '$(System.ArtifactsDirectory)'
+       
+    - task: KubernetesManifest@1
+      inputs:
+        action: 'deploy'
+        connectionType: 'kubernetesServiceConnection'
+        kubernetesServiceConnection: 'azure-kubernetes-manager-service-connection'
+        namespace: 'default'
+        manifests: '$(System.ArtifactsDirectory)/deployment.yaml'
+        containers: 'maxeom/currency-exchange-devops:$(tag)'
