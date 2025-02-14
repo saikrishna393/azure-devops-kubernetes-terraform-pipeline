@@ -23,7 +23,7 @@ spec:
     spec:
       containers:
       - name: currency-exchange
-        image: maxeom/currency-exchange-devops
+        image: in28min/currency-exchange-devops
         imagePullPolicy: IfNotPresent
         ports:
         - name: liveness-port
