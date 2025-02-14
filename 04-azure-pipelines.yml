@@ -53,4 +53,4 @@ stages:
         kubernetesServiceConnection: 'azure-kubernetes-manager-service-connection'
         namespace: 'default'
         manifests: '$(System.ArtifactsDirectory)/deployment.yaml'
-        containers: 'maxeom/currency-exchange-devops:$(tag)'
+        containers: 'in28min/currency-exchange-devops:$(tag)'
