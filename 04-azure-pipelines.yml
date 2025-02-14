@@ -17,13 +17,13 @@ stages:
     pool:
       vmImage: 'ubuntu-latest'
     steps:
-    - task: Docker@2
-      inputs:
-        containerRegistry: 'maxeom-docker-hub'
-        repository: 'maxeom/currency-exchange-devops'
-        command: 'buildAndPush'
-        Dockerfile: '**/Dockerfile'
-        tags: '$(tag)'
+    # - task: Docker@2
+    #   inputs:
+    #     containerRegistry: 'maxeom-docker-hub'
+    #     repository: 'maxeom/currency-exchange-devops'
+    #     command: 'buildAndPush'
+    #     Dockerfile: '**/Dockerfile'
+    #     tags: '$(tag)'
     - task: PublishBuildArtifacts@1
       inputs:
         PathtoPublish: '$(Build.ArtifactStagingDirectory)'
