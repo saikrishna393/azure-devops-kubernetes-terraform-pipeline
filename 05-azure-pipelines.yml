@@ -1,0 +1,19 @@
+
+
+trigger:
+- master
+
+pool:
+  vmImage: ubuntu-latest
+
+steps:
+- script: echo k8s-dev Terraform Azure!
+  displayName: 'Run a one-line script'
+- task: TerraformTaskV4@4
+  inputs:
+    provider: 'aws'
+    command: 'init'
+    workingDirectory: '$(System.DefaultWorkingDirectory)/configuration/iaac/aws/kubernetes'
+    backendServiceAWS: 'aws-for-terraform'
+    backendAWSBucketName: 'terraform-backend-state-in28minutes-1'
+    backendAWSKey: 'kubernetes-dev.tfstate'
