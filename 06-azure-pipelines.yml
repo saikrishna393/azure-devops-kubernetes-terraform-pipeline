@@ -55,7 +55,7 @@ stages:
             kubernetesServiceConnection: 'aws-kubernetes-cluster-svc'
             namespace: 'default'
             manifests: '$(System.ArtifactsDirectory)/configuration/kubernetes/deployment.yaml'
-            containers: in28min/currency-exchange-devops:$(tag)
+            containers: maxeom/currency-exchange-devops:$(tag)
 
 
 
